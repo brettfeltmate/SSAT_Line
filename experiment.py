@@ -54,8 +54,8 @@ class SSAT_line(klibs.Experiment):
 		self.group_A_keymap = KeyMap("search_response", ['z','/'], ['absent','present'], [sdl2.SDLK_z, sdl2.SDLK_SLASH])
 		self.group_B_keymap = KeyMap("search_response", ['z','/'], ['present','absent'], [sdl2.SDLK_z, sdl2.SDLK_SLASH])
 
-		self.item_duration = .5 # seconds
-		self.isi = .1  		# seconds
+		self.item_duration = .1 # seconds
+		self.isi = .05  		# seconds
 
 
 		self.anykey_text = "{0}\nPress any key to continue."
@@ -334,13 +334,12 @@ class SSAT_line(klibs.Experiment):
 		flip()
 
 	def prepare_stream(self):
-		stream_pad = 3
-		self.stream_length = self.set_size + (stream_pad*2)
+		self.stream_length = 20
 
 		stream_items = []
 
 		if self.present_absent == PRESENT:
-			self.target_time = random.randint(stream_pad + 1, self.set_size)
+			self.target_time = random.randint(5, 16)
 		else:
 			self.target_time = -1
 
@@ -357,7 +356,7 @@ class SSAT_line(klibs.Experiment):
 
 		duration_cd = CountDown(self.item_duration, start=False)
 		isi_cd = CountDown(self.isi, start=False)
-		response_window_cd = CountDown(5, start=False) # seconds
+		response_window_cd = CountDown(3, start=False) # seconds
 
 		last_item = True if len(self.rsvp_stream) == 1 else False
 		item = self.rsvp_stream.pop()
