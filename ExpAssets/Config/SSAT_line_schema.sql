@@ -63,6 +63,7 @@ CREATE TABLE trials (
 	target_distractor text not null,
 	distractor_distractor text not null,
 	target_time text not null,
+	stream_duration text not null,
 	target_onset text not null,
 	spatial_response text not null,
 	spatial_rt text not null,
