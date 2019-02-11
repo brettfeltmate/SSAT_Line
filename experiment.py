@@ -252,7 +252,7 @@ class SSAT_line(klibs.Experiment):
 			"target_distractor": self.target_distractor,
 			"distractor_distractor": self.distractor_distractor,
 			"target_time": self.target_time if self.search_type == TIME else "NA",
-			"stream_duration", self.stream_sw.elapsed() if self.search_type == TIME else "NA",
+			"stream_duration": self.stream_sw.elapsed() if self.search_type == TIME else "NA",
 			"target_onset": self.target_onset if self.search_type == TIME else "NA",
 			"spatial_response": spatial_response if self.search_type == SPACE else "NA",
 			"spatial_rt": spatial_rt if self.search_type == SPACE else "NA",
