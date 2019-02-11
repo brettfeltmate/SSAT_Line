@@ -222,6 +222,7 @@ class SSAT_line(klibs.Experiment):
 		else:
 
 			try:
+				self.stream_sw = Stopwatch()
 				self.target_sw = Stopwatch()
 				# the display callback "present_stream()" pops an element each pass; when all targets have been shown this bad boy throws an error
 				self.temporal_rc.collect()
@@ -251,6 +252,7 @@ class SSAT_line(klibs.Experiment):
 			"target_distractor": self.target_distractor,
 			"distractor_distractor": self.distractor_distractor,
 			"target_time": self.target_time if self.search_type == TIME else "NA",
+			"stream_duration", self.stream_sw.elapsed() if self.search_type == TIME else "NA",
 			"target_onset": self.target_onset if self.search_type == TIME else "NA",
 			"spatial_response": spatial_response if self.search_type == SPACE else "NA",
 			"spatial_rt": spatial_rt if self.search_type == SPACE else "NA",
@@ -380,6 +382,7 @@ class SSAT_line(klibs.Experiment):
 
 		if last_item:
 			clear()
+			self.stream_sw.stop()
 			response_window_cd.start()
 			while response_window_cd.counting():
 				pass
