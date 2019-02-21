@@ -48,7 +48,8 @@ class SSAT_line(klibs.Experiment):
 		
 		# Initialize ResponseCollectors
 		self.spatial_rc  = ResponseCollector(uses=RC_KEYPRESS)
-		self.temporal_rc = ResponseCollector(uses=RC_KEYPRESS, flip_screen=True)
+		self.temporal_pre_rc = ResponseCollector(uses=RC_KEYPRESS, flip_screen=True)
+		self.temporal_post_rc = ResponseCollector(uses=RC_KEYPRESS, flip_screen=True)
 
 		self.group_A_keymap = KeyMap("search_response", ['z','/'], ['absent','present'], [sdl2.SDLK_z, sdl2.SDLK_SLASH])
 		self.group_B_keymap = KeyMap("search_response", ['z','/'], ['present','absent'], [sdl2.SDLK_z, sdl2.SDLK_SLASH])
@@ -160,10 +161,15 @@ class SSAT_line(klibs.Experiment):
 		self.spatial_rc.keypress_listener.interrupts = True
 		self.spatial_rc.keypress_listener.key_map = self.group_A_keymap if self.group == 'A' else self.group_B_keymap
 
-		self.temporal_rc.terminate_after = [100, TK_S]
-		self.temporal_rc.keypress_listener.key_map = self.group_A_keymap if self.group == 'A' else self.group_B_keymap
-		self.temporal_rc.keypress_listener.interrupts = True 
-		self.temporal_rc.display_callback = self.present_stream
+		self.temporal_pre_rc.terminate_after = [10, TK_S]
+		self.temporal_pre_rc.keypress_listener.key_map = self.group_A_keymap if self.group == 'A' else self.group_B_keymap
+		self.temporal_pre_rc.keypress_listener.interrupts = True 
+		self.temporal_pre_rc.display_callback = self.present_stream
+		
+		self.temporal_post_rc.terminate_after = [5, TK_S]
+		self.temporal_post_rc.keypress_listener.key_map = self.group_A_keymap if self.group == 'A' else self.group_B_keymap
+		self.temporal_post_rc.keypress_listener.interrupts = True 
+		self.temporal_post_rc.display_callback = self.post_stream
 
 	def trial_prep(self):
 		self.target_onset = NA
@@ -225,19 +231,25 @@ class SSAT_line(klibs.Experiment):
 				self.stream_sw = Stopwatch()
 				self.target_sw = Stopwatch()
 				# the display callback "present_stream()" pops an element each pass; when all targets have been shown this bad boy throws an error
-				self.temporal_rc.collect()
+				self.temporal_pre_rc.collect()
 			except IndexError:
 				pass
 
-			if len(self.temporal_rc.keypress_listener.responses):
-				temporal_response, temporal_rt = self.temporal_rc.keypress_listener.response()
-				if temporal_response != self.present_absent:
-					self.present_feedback()
+			if len(self.temporal_pre_rc.keypress_listener.responses):
+				temporal_response, temporal_rt = self.temporal_pre_rc.keypress_listener.response()
+
 				print("RT: {0}".format(temporal_rt))
 
 			else:
-				temporal_response = "None"
-				temporal_rt = "NA"
+				self.temporal_post_rc.collect()
+				if len(self.temporal_post_rc.keypress_listener.responses):
+					temporal_response, temporal_rt = self.temporal_post_rc.keypress_listener.response()
+				else:
+					temporal_response = "None"
+					temporal_rt = "NA"
+
+			if temporal_response != self.present_absent:
+				self.present_feedback()
 		
 		clear()
 		print("Trial time: {0}.".format(self.trial_sw.elapsed()))
@@ -263,7 +275,8 @@ class SSAT_line(klibs.Experiment):
 
 	def trial_clean_up(self):
 		self.spatial_rc.keypress_listener.reset()
-		self.temporal_rc.keypress_listener.reset()
+		self.temporal_pre_rc.keypress_listener.reset()
+		self.temporal_post_rc.keypress_listener.reset()
 
 		if not P.practicing:
 			if P.trial_number == P.trials_per_block:
@@ -358,9 +371,7 @@ class SSAT_line(klibs.Experiment):
 
 		duration_cd = CountDown(self.item_duration, start=False)
 		isi_cd = CountDown(self.isi, start=False)
-		response_window_cd = CountDown(2, start=False) # seconds
 
-		last_item = True if len(self.rsvp_stream) == 1 else False
 		item = self.rsvp_stream.pop()
 		
 		fill()
@@ -380,9 +391,7 @@ class SSAT_line(klibs.Experiment):
 		while isi_cd.counting():
 			pass
 
-		if last_item:
-			clear()
-			self.stream_sw.stop()
-			response_window_cd.start()
-			while response_window_cd.counting():
-				pass
+
+	def post_stream(self):
+		fill()
+		flip()
