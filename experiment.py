@@ -238,7 +238,7 @@ class SSAT_line(klibs.Experiment):
 			if len(self.temporal_pre_rc.keypress_listener.responses):
 				temporal_response, temporal_rt = self.temporal_pre_rc.keypress_listener.response()
 
-				print("RT: {0}".format(temporal_rt))
+			self.stream_sw.stop()
 
 			else:
 				self.temporal_post_rc.collect()
