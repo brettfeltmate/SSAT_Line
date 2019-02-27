@@ -7,7 +7,7 @@ collect_demographics = True
 manual_demographics_collection = False
 manual_trial_generation = False
 run_practice_blocks = True
-multi_user = False
+multi_user = True
 view_distance = 57 # in centimeters, 57cm = 1 deg of visual angle per cm of screen
 
 #########################################
