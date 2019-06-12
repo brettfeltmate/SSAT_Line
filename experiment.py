@@ -23,14 +23,14 @@ import random
 import math
 
 # Define some useful constants
-SPACE = "space"
-TIME = "time"
-HOMO = "homo"
-HETERO = "hetero"
+SPACE 	= "space"
+TIME 	= "time"
+HOMO 	= "homo"
+HETERO 	= "hetero"
 PRESENT = "present"
-ABSENT = "absent"
-BLACK = (0,0,0,255)
-WHITE = (255,255,255,255)
+ABSENT 	= "absent"
+BLACK 	= (0,0,0,255)
+WHITE 	= (255,255,255,255)
 
 
 class SSAT_line(klibs.Experiment):
@@ -44,12 +44,12 @@ class SSAT_line(klibs.Experiment):
 		self.item_thickness = deg_to_px(.1)
 
 		# Initilize drawbjects
-		self.fixation = FixationCross(fix_size, fix_thickness, fill=BLACK)
+		self.fixation = FixationCross(fix_size, fix_thickness, fill=WHITE)
 		
 		# Initialize ResponseCollectors
-		self.spatial_rc  = ResponseCollector(uses=RC_KEYPRESS)
-		self.temporal_pre_rc = ResponseCollector(uses=RC_KEYPRESS, flip_screen=True)
-		self.temporal_post_rc = ResponseCollector(uses=RC_KEYPRESS, flip_screen=True)
+		self.spatial_rc  		= ResponseCollector(uses=RC_KEYPRESS)
+		self.temporal_pre_rc 	= ResponseCollector(uses=RC_KEYPRESS, flip_screen=True)
+		self.temporal_post_rc 	= ResponseCollector(uses=RC_KEYPRESS, flip_screen=True)
 
 		self.group_A_keymap = KeyMap("search_response", ['z','/'], ['absent','present'], [sdl2.SDLK_z, sdl2.SDLK_SLASH])
 		self.group_B_keymap = KeyMap("search_response", ['z','/'], ['present','absent'], [sdl2.SDLK_z, sdl2.SDLK_SLASH])
@@ -60,46 +60,46 @@ class SSAT_line(klibs.Experiment):
 
 		self.anykey_text = "{0}\nPress any key to continue."
 
-		self.group_A_instuctions = "If you see the target item, please press the '/' key.\nIf you don't see the target item, please press the 'z' key."
-		self.group_B_instuctions = "If you see the target item, please press the 'z' key.\nIf you don't see the target item, please press the '/' key."
+		self.group_A_instuctions 		= "If you see the target item, please press the '/' key.\nIf you don't see the target item, please press the 'z' key."
+		self.group_B_instuctions 		= "If you see the target item, please press the 'z' key.\nIf you don't see the target item, please press the '/' key."
 
-		self.general_instructions_1 = "In this experiment, you will see a series of items; amongst these items a target item may, or may not, be presented.\n{0}"
-		self.general_instructions_2 = self.general_instructions_1.format(self.group_A_instuctions if self.group == "A" else self.group_B_instuctions)
-		self.general_instructions_3 = ("{0}\nThe experiment will begin with a few practice rounds to familiarlize yourself with the task."
-									   "\n\nBefore every trial, a preview of the target item will be presented.")
+		self.general_instructions_1 	= "In this experiment, you will see a series of items; amongst these items a target item may, or may not, be presented.\n{0}"
+		self.general_instructions_2 	= self.general_instructions_1.format(self.group_A_instuctions if self.group == "A" else self.group_B_instuctions)
+		self.general_instructions_3 	= ("{0}\nThe experiment will begin with a few practice rounds to familiarlize yourself with the task."
+									   	"\n\nBefore every trial, a preview of the target item will be presented.")
 
-		self.spatial_instructions_1 = "Searching in Space!\n\nFor these trials, you will see a collection of items arranged in a circle.\n{0}"
-		self.temporal_instructions_1 = "Searching in Time!\n\nFor these trials, you will see a series of items presented one at a time, center screen.\n{0}"
+		self.spatial_instructions_1	 	= "Searching in Space!\n\nFor these trials, you will see a collection of items arranged in a circle.\n{0}"
+		self.temporal_instructions_1 	= "Searching in Time!\n\nFor these trials, you will see a series of items presented one at a time, center screen.\n{0}"
 		
-		self.group_A_spatial = ("If one of the items is the target, press the '/' key as fast as possible.\n"
-							    "If none of the items are the target, press the 'z' key as fast as possible.")
+		self.group_A_spatial 			= ("If one of the items is the target, press the '/' key as fast as possible.\n"
+							    		"If none of the items are the target, press the 'z' key as fast as possible.")
 
-		self.group_B_spatial = ("If one of the items is the target, press the 'z' key as fast as possible.\n"
-							    "If none of the items are the target, press the '/' key as fast as possible.")
+		self.group_B_spatial 			= ("If one of the items is the target, press the 'z' key as fast as possible.\n"
+							    		"If none of the items are the target, press the '/' key as fast as possible.")
 
-		self.group_A_temporal = ("At any time, if you see the target item, press the '/' key as fast as possible.\n"
-								 "Once the images stop appearing, if you haven't seen the target item, press the 'z' key as fast as possible.")
+		self.group_A_temporal 			= ("At any time, if you see the target item, press the '/' key as fast as possible.\n"
+								 		"Once the images stop appearing, if you haven't seen the target item, press the 'z' key as fast as possible.")
 		
-		self.group_B_temporal = ("At any time, if you see the target item, press the 'z' key as fast as possible.\n"
-								 "Once the images stop appearing, if you haven't seen the target item, press the '/' key as fast as possible.")
+		self.group_B_temporal 			= ("At any time, if you see the target item, press the 'z' key as fast as possible.\n"
+								 		"Once the images stop appearing, if you haven't seen the target item, press the '/' key as fast as possible.")
 
-		self.general_instructions = self.general_instructions_3.format(self.general_instructions_2)
-		self.spatial_instructions = self.spatial_instructions_1.format(self.group_A_spatial if self.group == 'A' else self.group_B_spatial)
-		self.temporal_instructions = self.temporal_instructions_1.format(self.group_A_temporal if self.group == 'A' else self.group_B_temporal)
+		self.general_instructions 		= self.general_instructions_3.format(self.general_instructions_2)
+		self.spatial_instructions 		= self.spatial_instructions_1.format(self.group_A_spatial if self.group == 'A' else self.group_B_spatial)
+		self.temporal_instructions 		= self.temporal_instructions_1.format(self.group_A_temporal if self.group == 'A' else self.group_B_temporal)
 
-		self.general_instruct_shown = False
+		self.general_instruct_shown 	= False
 
-		self.spatial_conditions_exp = [[HOMO, HETERO], [HOMO, HOMO], [HETERO, HOMO], [HETERO, HETERO]]
-		self.temporal_conditions_exp = [[HOMO, HETERO], [HOMO, HOMO], [HETERO, HOMO], [HETERO, HETERO]]
+		self.spatial_conditions_exp 	= [[HOMO, HETERO], [HOMO, HOMO], [HETERO, HOMO], [HETERO, HETERO]]
+		self.temporal_conditions_exp 	= [[HOMO, HETERO], [HOMO, HOMO], [HETERO, HOMO], [HETERO, HETERO]]
 
-		self.practice_conditions = [[HETERO, HOMO], [HETERO, HETERO], [HOMO, HETERO], [HOMO, HOMO]]
+		self.practice_conditions 		= [[HETERO, HOMO], [HETERO, HETERO], [HOMO, HETERO], [HOMO, HOMO]]
 
 		random.shuffle(self.spatial_conditions_exp)
 		random.shuffle(self.temporal_conditions_exp)
 		random.shuffle(self.practice_conditions)
 
 
-		self.search_type = random.choice([SPACE, TIME])
+		self.search_type = random.choice([SPACE,TIME])
 
 		if P.run_practice_blocks:
 			self.insert_practice_block(block_nums=range(1,5), trial_counts=P.trials_per_practice_block)
@@ -124,20 +124,20 @@ class SSAT_line(klibs.Experiment):
 			self.general_instruct_shown = True
 			
 			general_text = self.anykey_text.format(self.general_instructions)
-			general_msg = message(general_text, align='left',blit_txt=False)
+			general_msg  = message(general_text, align='left',blit_txt=False)
 
 			fill()
 			blit(general_msg,5, P.screen_c)
 			flip()
 			any_key()
 
-		block_txt = "Block {0} of {1}".format(P.block_number, P.blocks_per_experiment)
-		progress_txt = self.anykey_text.format(block_txt)
+		block_txt 		= "Block {0} of {1}".format(P.block_number, P.blocks_per_experiment)
+		progress_txt 	= self.anykey_text.format(block_txt)
 
 		if P.practicing:
 			progress_txt += "\n(This is a practice block)"
 
-		progress_msg = message(progress_txt, align='center', blit_txt=False)
+		progress_msg 	= message(progress_txt, align='center', blit_txt=False)
 
 		fill()
 		blit(progress_msg,5,P.screen_c)
@@ -157,19 +157,19 @@ class SSAT_line(klibs.Experiment):
 		any_key()
 
 	def setup_response_collector(self):
-		self.spatial_rc.terminate_after = [10, TK_S]
-		self.spatial_rc.keypress_listener.interrupts = True
-		self.spatial_rc.keypress_listener.key_map = self.group_A_keymap if self.group == 'A' else self.group_B_keymap
+		self.spatial_rc.terminate_after 					= [10, TK_S]
+		self.spatial_rc.keypress_listener.interrupts 		= True
+		self.spatial_rc.keypress_listener.key_map 			= self.group_A_keymap if self.group == 'A' else self.group_B_keymap
 
-		self.temporal_pre_rc.terminate_after = [10, TK_S]
-		self.temporal_pre_rc.keypress_listener.key_map = self.group_A_keymap if self.group == 'A' else self.group_B_keymap
-		self.temporal_pre_rc.keypress_listener.interrupts = True 
-		self.temporal_pre_rc.display_callback = self.present_stream
+		self.temporal_pre_rc.terminate_after 				= [10, TK_S]
+		self.temporal_pre_rc.keypress_listener.key_map 		= self.group_A_keymap if self.group == 'A' else self.group_B_keymap
+		self.temporal_pre_rc.keypress_listener.interrupts 	= True 
+		self.temporal_pre_rc.display_callback 				= self.present_stream
 		
-		self.temporal_post_rc.terminate_after = [5, TK_S]
-		self.temporal_post_rc.keypress_listener.key_map = self.group_A_keymap if self.group == 'A' else self.group_B_keymap
-		self.temporal_post_rc.keypress_listener.interrupts = True 
-		self.temporal_post_rc.display_callback = self.post_stream
+		self.temporal_post_rc.terminate_after 				= [5, TK_S]
+		self.temporal_post_rc.keypress_listener.key_map 	= self.group_A_keymap if self.group == 'A' else self.group_B_keymap
+		self.temporal_post_rc.keypress_listener.interrupts  = True 
+		self.temporal_post_rc.display_callback 				= self.post_stream
 
 	def trial_prep(self):
 		self.target_onset = NA
@@ -200,7 +200,6 @@ class SSAT_line(klibs.Experiment):
 			self.evm.register_ticket(ET(e[1], e[0]))
 
 		hide_mouse_cursor()
-		self.trial_sw = Stopwatch()
 		self.present_target()
 
 	def trial(self):
@@ -220,58 +219,63 @@ class SSAT_line(klibs.Experiment):
 
 			if len(self.spatial_rc.keypress_listener.responses):
 				spatial_response, spatial_rt = self.spatial_rc.keypress_listener.response()
+				
 				if spatial_response != self.present_absent:
 					self.present_feedback()
 			else:
 				spatial_response = "None"
-				spatial_rt = 'NA'
+				spatial_rt 		 = 'NA'
 		else:
 
 			try:
-				self.stream_sw = Stopwatch()
-				self.target_sw = Stopwatch()
+				self.response_sw = Stopwatch() # Used as RT stopwatch in cases where responses are made after stream has ended
+				self.stream_sw   = Stopwatch()	# Records duration of stream, just in case it becomes handy to have
+				self.target_sw   = Stopwatch()	# Records time that target is presented, again just in case.
+
 				# the display callback "present_stream()" pops an element each pass; when all targets have been shown this bad boy throws an error
 				self.temporal_pre_rc.collect()
 			except IndexError:
 				pass
+			
+			# Pause once stream has ended
+			self.stream_sw.pause()
 
 			if len(self.temporal_pre_rc.keypress_listener.responses):
 				temporal_response, temporal_rt = self.temporal_pre_rc.keypress_listener.response()
 
-			
-
 			else:
-				self.stream_sw.pause()
 				self.temporal_post_rc.collect()
+
 				if len(self.temporal_post_rc.keypress_listener.responses):
-					temporal_response, temporal_rt = self.temporal_post_rc.keypress_listener.response()
-					temporal_rt += self.stream_sw.elapsed()
+					temporal_rt 	  = self.response_sw.elapsed() * 1000 # Rescale RT to ms and log
+					temporal_response = self.temporal_post_rc.keypress_listener.response(rt=False)
+
 				else:
 					temporal_response = "None"
-					temporal_rt = "NA"
+					temporal_rt 	  = "NA"
 
 			if temporal_response != self.present_absent:
 				self.present_feedback()
 		
 		clear()
-		print("Trial time: {0}.".format(self.trial_sw.elapsed()))
+
 		return {
-			"practicing": str(P.practicing),
-			"block_num": P.block_number,
-			"trial_num": P.trial_number,
-			"search_type": self.search_type,
-			"stimulus_type": 'LINE',
-			"present_absent": self.present_absent,
-			"set_size": self.set_size if self.search_type == SPACE else 'NA',
-			"target_distractor": self.target_distractor,
-			"distractor_distractor": self.distractor_distractor,
-			"target_time": self.target_time if self.search_type == TIME else "NA",
-			"stream_duration": self.stream_sw.elapsed() if self.search_type == TIME else "NA",
-			"target_onset": self.target_onset if self.search_type == TIME else "NA",
-			"spatial_response": spatial_response if self.search_type == SPACE else "NA",
-			"spatial_rt": spatial_rt if self.search_type == SPACE else "NA",
-			"temporal_response": temporal_response if self.search_type == TIME else "NA",
-			"temporal_rt": temporal_rt if self.search_type == TIME else "NA"
+			"practicing": 				str(P.practicing),
+			"block_num": 				P.block_number,
+			"trial_num": 				P.trial_number,
+			"search_type": 				self.search_type,
+			"stimulus_type": 			'LINE',
+			"present_absent": 			self.present_absent,
+			"set_size": 				self.set_size if self.search_type == SPACE else 'NA',
+			"target_distractor": 		self.target_distractor,
+			"distractor_distractor": 	self.distractor_distractor,
+			"target_time": 				self.target_time if self.search_type == TIME else "NA",
+			"stream_duration": 			self.stream_sw.elapsed() if self.search_type == TIME else "NA",
+			"target_onset": 			self.target_onset if self.search_type == TIME else "NA",
+			"spatial_response": 		spatial_response if self.search_type == SPACE else "NA",
+			"spatial_rt": 				spatial_rt if self.search_type == SPACE else "NA",
+			"temporal_response": 		temporal_response if self.search_type == TIME else "NA",
+			"temporal_rt": 				temporal_rt if self.search_type == TIME else "NA"
 		}
 
 
