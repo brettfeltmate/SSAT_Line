@@ -1,4 +1,6 @@
-#SSAT_Line
+# SSAT_Line
+
+## Note: I'll fix this eventually, but as it stands there's a typo you'll need to fix before you can run this program. When you clone or otherwise download these files, in the directory name make sure to change the 'L' in 'SSAT_Line' to lowercase. KLibs currently requires that all directory names match the name of the experiment as listed in experiment.py.
 
 
 This is experiment is one of two designed to directly compare performance in spatial & temporal search when stimuli are generated according to Duncan & Humphreys (1989) 'search surface'.
